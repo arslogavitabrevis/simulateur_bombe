@@ -17,7 +17,7 @@ class WebServerManager:
             self.__html_template: str = f.read()
 
         # Wait for connect or fail
-        wait = 10
+        wait = 20
         while wait > 0:
             if self.__wlan.status() < 0 or self.__wlan.status() >= 3:
                 break
@@ -47,30 +47,36 @@ class WebServerManager:
 
     def run(self):
         self.__time_left_s = "30:00"
-        self.__question_to_display = 'Badaboum!!!'
+        self.__question_to_display = ['Badaboum!!!']
+        self.__question_index = 0
         self.__refresh = 2
         self.update_webpage()
         self.__timer = machine.Timer()
         self.__timer.init(period=self.__refresh*1000, callback=self.__serve)
 
-    def update_webpage(self, refresh=None,
-                       time_left_s=None,
-                       question=None):
-
+    def update_webpage(self, question=None,
+                       refresh=None,
+                       time_left_s=None,):
+        
         if refresh is not None:
             self.__refresh = refresh
             self.__timer.deinit()
-            self.__timer.init(period=self.__refresh*1000, callback=self.__serve)
+            self.__timer.init(period=self.__refresh *
+                              1000, callback=self.__serve)
 
         if time_left_s is not None:
             self.__time_left_s = f"{int(time_left_s/60):02d}:{time_left_s%60:02d}"
 
         if question is not None:
+            self.__question_index = 0
             self.__question_to_display = question
+        else:
+            self.__question_index = (
+                self.__question_index+1) % len(self.__question_to_display)
 
         self.__updated_html = self.__html_template.replace(
             "[refresh]", f"{self.__refresh}"
-        ).replace("[time]", self.__time_left_s).replace("[question]", self.__question_to_display)
+        ).replace("[time]", self.__time_left_s).replace("[question]", self.__question_to_display[self.__question_index])
 
     def __serve(self, timer: machine.Timer):
         client: socket.socket
@@ -91,8 +97,9 @@ class WebServerManager:
             return
 
         print(request)
-        print("updation client")
+        print("updating client")
 
+        self.update_webpage()
         client.send(self.__updated_html)
 
         client.close()
