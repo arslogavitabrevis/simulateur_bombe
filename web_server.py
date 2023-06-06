@@ -2,11 +2,17 @@ import machine
 import socket
 import network
 import time
+from __buzzer import Buzzer
+import _thread
+import utime
 
 
 class WebServerManager:
 
-    def __init__(self):
+    def __init__(self, buzzer: Buzzer, web_page_param_lock: _thread.LockType):
+
+        self.__web_page_param_lock = web_page_param_lock
+        self.__buzzer = buzzer
 
         # Configure Wlan
         self.__wlan = network.WLAN(network.AP_IF)
@@ -17,7 +23,7 @@ class WebServerManager:
             self.__html_template: str = f.read()
 
         # Wait for connect or fail
-        wait = 20
+        wait = 30
         while wait > 0:
             if self.__wlan.status() < 0 or self.__wlan.status() >= 3:
                 break
@@ -40,45 +46,36 @@ class WebServerManager:
         except KeyboardInterrupt:
             machine.reset()
 
-        # Activer une pin de sortie pour le buzzer
-        PREMIERE_PIN = 0
-        self.__buzzer_pin = machine.Pin(PREMIERE_PIN, machine.Pin.OUT)
-        self.__buzzer_pin.low()
-
     def run(self):
-        self.__time_left_s = "30:00"
         self.__question_to_display = ['Badaboum!!!']
         self.__question_index = 0
         self.__refresh = 2
-        self.update_webpage()
-        self.__timer = machine.Timer()
-        self.__timer.init(period=self.__refresh*1000, callback=self.__serve)
+        while True:
+            self.__serve()
+            utime.sleep_ms(200)
 
-    def update_webpage(self, question=None,
-                       refresh=None,
-                       time_left_s=None,):
-        
-        if refresh is not None:
+    def update_webpage(self, questions=None,
+                       refresh=None,):
+
+        self.__web_page_param_lock.acquire()
+        if refresh is not None and refresh != self.__refresh:
             self.__refresh = refresh
-            self.__timer.deinit()
-            self.__timer.init(period=self.__refresh *
-                              1000, callback=self.__serve)
 
-        if time_left_s is not None:
-            self.__time_left_s = f"{int(time_left_s/60):02d}:{time_left_s%60:02d}"
-
-        if question is not None:
+        if questions is not None:
             self.__question_index = 0
-            self.__question_to_display = question
+            self.__question_to_display = questions
         else:
             self.__question_index = (
                 self.__question_index+1) % len(self.__question_to_display)
 
         self.__updated_html = self.__html_template.replace(
             "[refresh]", f"{self.__refresh}"
-        ).replace("[time]", self.__time_left_s).replace("[question]", self.__question_to_display[self.__question_index])
+        ).replace("[time]", self.__buzzer.encode_time_left()
+                  ).replace("[question]", self.__question_to_display[self.__question_index])
+        self.__web_page_param_lock.release()
 
-    def __serve(self, timer: machine.Timer):
+    def __serve(self):
+        
         client: socket.socket
         client, address = self.__connection.accept()
 
@@ -96,23 +93,12 @@ class WebServerManager:
             print("No request received")
             return
 
-        print(request)
         print("updating client")
 
         self.update_webpage()
         client.send(self.__updated_html)
 
         client.close()
-
-        self.__buzzer_pin.high()
-        self.__timer_buzzer = machine.Timer(
-            mode=machine.Timer.ONE_SHOT,
-            period=200,
-            callback=self.__stop_buzzer)
-
-    def __stop_buzzer(self, timer: machine.Timer):
-        timer.deinit()
-        self.__buzzer_pin.low()
 
     @staticmethod
     def __open_socket(ip):

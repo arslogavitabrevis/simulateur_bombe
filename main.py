@@ -1,22 +1,29 @@
-import machine
-import utime
-import machine
+import _thread
 from web_server import WebServerManager
 from __procedure_desamorcement import SequenceDesarmorcement
+from __buzzer import Buzzer
 
-print("hello")
+print("Démarrage de la bombe")
 
 class SimulateurBombe:
 
-    def __init__(self):
-        self.__web_server = WebServerManager()
-
+    def __start_web_server(self):
+        self.__web_server = WebServerManager(
+            self.__buzzer, self.__web_page_param_lock)
         self.__web_server.run()
-        
+
+    def __init__(self):
+        self.__time_left_lock = _thread.allocate_lock()
+        self.__web_page_param_lock = _thread.allocate_lock()
+
+        self.__buzzer = Buzzer(self.__time_left_lock)
+
+        _thread.start_new_thread(self.__start_web_server, ())
+
         self.__desamorcement = SequenceDesarmorcement(
-            fonction_mise_a_jour=self.__web_server.update_webpage
-        )
+            web_server=self.__web_server,
+            buzzer=self.__buzzer,)
+
 
 if __name__ == "__main__":
-    print(__name__)
     simulateur_bombe = SimulateurBombe()
