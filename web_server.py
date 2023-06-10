@@ -4,8 +4,6 @@ import network
 import time
 from __buzzer import Buzzer
 import _thread
-import utime
-
 
 class WebServerManager:
 
@@ -50,9 +48,14 @@ class WebServerManager:
         self.__question_to_display = ['Badaboum!!!']
         self.__question_index = 0
         self.__refresh = 2
-        while True:
-            self.__serve()
-            utime.sleep_ms(200)
+        self.__connection.settimeout(50)
+        try:
+            while True:
+                self.__serve()
+                time.sleep_ms(200)
+        finally:
+            print('shutting down web server')
+            self.__connection.close()
 
     def update_webpage(self, questions=None,
                        refresh=None,):
@@ -75,7 +78,7 @@ class WebServerManager:
         self.__web_page_param_lock.release()
 
     def __serve(self):
-        
+
         client: socket.socket
         client, address = self.__connection.accept()
 
