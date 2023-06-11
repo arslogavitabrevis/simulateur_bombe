@@ -93,7 +93,7 @@ class WebServerManager:
                 request = request.split()[1]
             except IndexError:
                 print("No request received")
-            return
+                return
             client.send(self.__updated_html)
         except:
             print("Client connexion close")
