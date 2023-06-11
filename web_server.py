@@ -83,7 +83,7 @@ class WebServerManager:
             client, address = self.__connection.accept()
         except OSError as e:
             print(f'oserror: {e.args}')
-            returnn
+            return
 
         self.update_webpage()
 
