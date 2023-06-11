@@ -69,27 +69,31 @@ class WebServerManager:
             self.__question_to_display = questions
         else:
             self.__question_index = (
-                self.__question_index+1) % len(self.__question_to_display)
+                self.__question_index+1) % (2*len(self.__question_to_display))
 
         self.__updated_html = self.__html_template.replace(
-            "[refresh]", f"{self.__refresh*0.75}"
+            "[refresh]", f"{self.__refresh}"
         ).replace("[time]", self.__buzzer.encode_time_left()
-                  ).replace("[question]", self.__question_to_display[self.__question_index]).encode("utf-8")
+                  ).replace("[question]", self.__question_to_display[self.__question_index>>1]).encode("utf-8")
 
     def __serve(self):
 
         client: socket.socket
-        print("waiting for connection to be accepted")
         try:
             client, address = self.__connection.accept()
         except OSError as e:
             print(f'oserror: {e.args}')
-            return
+            returnn
 
         self.update_webpage()
 
         try:
             request = client.recv(1024)
+            try:
+                request = request.split()[1]
+            except IndexError:
+                print("No request received")
+            return
             client.send(self.__updated_html)
         except:
             print("Client connexion close")
