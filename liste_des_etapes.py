@@ -1,19 +1,22 @@
 with open("logos_ascii/carotte.txt", 'r') as f:
     carotte = f.read()
-    
+
 liste_des_etapes = (
     # pin_à_vérifier, question, Frequences,nouveau temps
     (1, ["En attente du démarrage de la bombe"], 1, None),
-    (2, ["bienvenue cher mortels profitez de vos dernier souffles",
-         "à moins que vous ne soyez à la hauteur",
-         "de mon merveilleUx génie",
-         "bienvenue Cher mOrtels",
-         "ProfitEz de vos dernieR souffLEs",
-         "à moins que vous ne soyez à la hauteuR",
-         "de mOn merveilleUx GéniE",
-         'tic tac',], 1, None),  # ROUGE
-    (3, ["À saveur d'orange, il est au Popsicle® ce que le Revello® est au Fudge®"],
-     1, None),  # ORANGE/BLANC
+    (2, [
+         "Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",
+         "Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",
+         "Cher mOrtels, bienvenUe, ProfitEZ de vos derniers", 
+         "souffLEs",
+         "souffLEs",
+         "souffLEs",
+         "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
+         "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
+         "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
+         'tic tac',], 1.25, None),  # ROUGE
+    (3, ["À saveur d'orange, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
+     0.95, None),  # ORANGE/BLANC
     (4, ['Il était temps bande de poshes', "NUM 10;1;21;14;5"], 0.4, None),  # Jaune
     (5, ["Le temps passe vite quand on s'ammuse trouvez vous.",
          "J'espères que vous vous amusez autant que moi.",

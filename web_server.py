@@ -3,14 +3,11 @@ import socket
 import network
 import time
 from __buzzer import Buzzer
-import _thread
+
 
 class WebServerManager:
 
-    def __init__(self, buzzer: Buzzer, web_page_param_lock: _thread.LockType):
-
-        self.__web_page_param_lock = web_page_param_lock
-        self.__buzzer = buzzer
+    def __init__(self, ):
 
         # Configure Wlan
         self.__wlan = network.WLAN(network.AP_IF)
@@ -26,7 +23,7 @@ class WebServerManager:
             if self.__wlan.status() < 0 or self.__wlan.status() >= 3:
                 break
             wait -= 1
-            print('waiting for connection...')
+            print(f'waiting for connection: status {self.__wlan.status()}')
             time.sleep(1)
 
         # Handle connection error
@@ -40,27 +37,30 @@ class WebServerManager:
         try:
             if ip is not None:
                 self.__connection = self.__open_socket(ip)
-                self.ip = ip
+                self.__ip = ip
         except KeyboardInterrupt:
             machine.reset()
 
-    def run(self):
         self.__question_to_display = ['Badaboum!!!']
         self.__question_index = 0
         self.__refresh = 2
-        self.__connection.settimeout(50)
+        self.running = False
+
+    def run(self, buzzer: Buzzer):
+        self.__buzzer = buzzer
+        self.update_webpage()
+        self.running = True
         try:
             while True:
                 self.__serve()
-                time.sleep_ms(200)
+                time.sleep_ms(300)
         finally:
             print('shutting down web server')
             self.__connection.close()
 
     def update_webpage(self, questions=None,
-                       refresh=None,):
+                       refresh=None):
 
-        self.__web_page_param_lock.acquire()
         if refresh is not None and refresh != self.__refresh:
             self.__refresh = refresh
 
@@ -72,36 +72,31 @@ class WebServerManager:
                 self.__question_index+1) % len(self.__question_to_display)
 
         self.__updated_html = self.__html_template.replace(
-            "[refresh]", f"{self.__refresh}"
+            "[refresh]", f"{self.__refresh*0.75}"
         ).replace("[time]", self.__buzzer.encode_time_left()
-                  ).replace("[question]", self.__question_to_display[self.__question_index])
-        self.__web_page_param_lock.release()
+                  ).replace("[question]", self.__question_to_display[self.__question_index]).encode("utf-8")
 
     def __serve(self):
 
         client: socket.socket
-        client, address = self.__connection.accept()
+        print("waiting for connection to be accepted")
+        try:
+            client, address = self.__connection.accept()
+        except OSError as e:
+            print(f'oserror: {e.args}')
+            return
+
+        self.update_webpage()
 
         try:
             request = client.recv(1024)
+            client.send(self.__updated_html)
         except:
             print("Client connexion close")
             client.close()
             return
-
-        request = str(request)
-        try:
-            request = request.split()[1]
-        except IndexError:
-            print("No request received")
-            return
-
-        print("updating client")
-
-        self.update_webpage()
-        client.send(self.__updated_html)
-
-        client.close()
+        finally:
+            client.close()
 
     @staticmethod
     def __open_socket(ip):
