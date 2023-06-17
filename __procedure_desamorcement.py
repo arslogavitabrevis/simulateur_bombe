@@ -59,10 +59,8 @@ class SequenceDesarmorcement:
                 return
             self.__verification(update=True)
             return
-        print(
-            f"pin {pin_a_verifier} value: {self.__pins[pin_a_verifier].value()}, update: {update}")
         if update:
             self.__buzzer.update_buzzer(
                 refresh=periode, time_left=nouveau_temps)
             self.__web_server.update_webpage(
-                questions=question, refresh=periode)
+                questions=question, tick_time=periode)

@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html>
-<META http-equiv=refresh content="[refresh]" charset="UTF-8">
-
+<META http-equiv=refresh content="2" charset="UTF-8">
 
 <body style="background-color:black;">
-  <p style="font-size:100px; color:red; text-align:center">
-    [time]
-  </p>
-  <p style="font-size:50px; color:red; text-align:center">
-    [question]
-  </p>
+  <p id="time_left" style="font-size:100px;color:red;text-align:center;"></p>
+  <p id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">[question]</p>
+  <script>
+    setInterval(tick_tm, 1000);
+    let s = 3700;
+    tick_tm();
+    function tick_tm() {
+      let sec_left_hour = s % 3600;
+      let hrs = ((s - sec_left_hour) / 3600);
+      let sec_left = sec_left_hour % 60;
+      let min = (sec_left_hour - sec_left) / 60;
+      document.getElementById("time_left").innerHTML = hrs.toString().padStart(2, "0") + ":" + min.toString().padStart(2, "0") + ":" + sec_left.toString().padStart(2, "0");
+      s = s - 1;
+    }
+  </script>
 </body>
 
 </html>

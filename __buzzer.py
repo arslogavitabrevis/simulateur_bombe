@@ -29,9 +29,8 @@ class Buzzer:
         if time_left is not None:
             self.__time_left_s = time_left
 
-    def encode_time_left(self) -> str:
-        time_left_str = f"{int(self.__time_left_s/60):02d}:{self.__time_left_s%60:02d}"
-        return time_left_str
+    def get_time_left(self) -> int:
+        return self.__time_left_s
 
     def __start_buzzer(self, timer: machine.Timer):
         self.__time_left_s = max(0, self.__time_left_s-1)

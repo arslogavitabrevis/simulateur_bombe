@@ -14,9 +14,6 @@ class WebServerManager:
         self.__wlan.config(security=0, ssid="badaboomWifi")
         self.__wlan.active(True)
 
-        with open("./page.html", "r") as f:
-            self.__html_template: str = f.read()
-
         # Wait for connect or fail
         wait = 30
         while wait > 0:
@@ -43,12 +40,11 @@ class WebServerManager:
 
         self.__question_to_display = ['Badaboum!!!']
         self.__question_index = 0
-        self.__refresh = 2
+        self.__tick_time = 2
         self.running = False
 
     def run(self, buzzer: Buzzer):
         self.__buzzer = buzzer
-        self.update_webpage()
         self.running = True
         try:
             while True:
@@ -58,23 +54,11 @@ class WebServerManager:
             print('shutting down web server')
             self.__connection.close()
 
-    def update_webpage(self, questions=None,
-                       refresh=None):
-
-        if refresh is not None and refresh != self.__refresh:
-            self.__refresh = refresh
-
-        if questions is not None:
-            self.__question_index = 0
-            self.__question_to_display = questions
-        else:
-            self.__question_index = (
-                self.__question_index+1) % (2*len(self.__question_to_display))
-
-        self.__updated_html = self.__html_template.replace(
-            "[refresh]", f"{self.__refresh}"
-        ).replace("[time]", self.__buzzer.encode_time_left()
-                  ).replace("[question]", self.__question_to_display[self.__question_index>>1]).encode("utf-8")
+    def update_webpage(self, questions:list[str],
+                       tick_time:float):
+        self.__tick_time = tick_time
+        self.__question_index = 0
+        self.__question_to_display = questions
 
     def __serve(self):
 
@@ -84,9 +68,7 @@ class WebServerManager:
         except OSError as e:
             print(f'oserror: {e.args}')
             return
-
-        self.update_webpage()
-
+        self.get_webpage()
         try:
             request = client.recv(1024)
             try:
@@ -102,7 +84,40 @@ class WebServerManager:
         finally:
             client.close()
 
-    @staticmethod
+    def get_webpage(self):
+        print(f"{(self.__question_index)=}")
+        self.__updated_html = """<!DOCTYPE html>
+<html>
+<META http-equiv=refresh content="2" charset="UTF-8">
+
+<body style="background-color:black;">
+  <p id="time_left" style="font-size:100px;color:red;text-align:center;"></p>
+  <p id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">super question</p>
+  <script>
+    setInterval(tick_tm, 1000);
+    let s = 250;
+    tick_tm();
+    function tick_tm() {
+      let sec_left_hour = s % 3600;
+      let hrs = ((s - sec_left_hour) / 3600);
+      let sec_left = sec_left_hour % 60;
+      let min = (sec_left_hour - sec_left) / 60;
+      document.getElementById("time_left").innerHTML = hrs.toString().padStart(
+          2, "0") + ":" + min.toString().padStart(2, "0") + ":" + sec_left.toString().padStart(2, "0");
+      s = s - 1;
+    }
+  </script>
+</body>
+
+</html>"""
+# .format(self.__question_to_display[self.__question_index].encode("utf-8"),
+#                   int(self.__tick_time*1000),
+#                   self.__buzzer.get_time_left())
+
+        self.__question_index = (
+            self.__question_index+1) % (2*len(self.__question_to_display))
+
+    @ staticmethod
     def __open_socket(ip):
         # Open a socket
         address = (ip, 80)
