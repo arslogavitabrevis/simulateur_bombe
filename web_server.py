@@ -45,6 +45,7 @@ class WebServerManager:
 
     def run(self, buzzer: Buzzer):
         self.__buzzer = buzzer
+        self.__question_index_timer = machine.Timer()
         self.running = True
         try:
             while True:
@@ -54,11 +55,18 @@ class WebServerManager:
             print('shutting down web server')
             self.__connection.close()
 
-    def update_webpage(self, questions:list[str],
-                       tick_time:float):
+    def update_webpage(self, questions: list[str],
+                       tick_time: float):
         self.__tick_time = tick_time
         self.__question_index = 0
         self.__question_to_display = questions
+        self.__question_index_timer.deinit()
+        self.__question_index_timer.init(
+            period=2500, callback=self.update_question_index)
+
+    def update_question_index(self, timer: machine.Timer):
+        self.__question_index = (
+            self.__question_index+1) % len(self.__question_to_display)
 
     def __serve(self):
 
@@ -68,7 +76,7 @@ class WebServerManager:
         except OSError as e:
             print(f'oserror: {e.args}')
             return
-        self.get_webpage()
+        html_page = self.get_webpage()
         try:
             request = client.recv(1024)
             try:
@@ -76,7 +84,7 @@ class WebServerManager:
             except IndexError:
                 print("No request received")
                 return
-            client.send(self.__updated_html)
+            client.send(html_page)
         except:
             print("Client connexion close")
             client.close()
@@ -85,19 +93,18 @@ class WebServerManager:
             client.close()
 
     def get_webpage(self):
-        print(f"{(self.__question_index)=}")
-        self.__updated_html = """<!DOCTYPE html>
+        return """<!DOCTYPE html>
 <html>
-<META http-equiv=refresh content="2" charset="UTF-8">
+<META http-equiv=refresh content="2.5" charset="UTF-8">
 
 <body style="background-color:black;">
   <p id="time_left" style="font-size:100px;color:red;text-align:center;"></p>
-  <p id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">super question</p>
+  <p id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">{}</p>
   <script>
-    setInterval(tick_tm, 1000);
-    let s = 250;
+    setInterval(tick_tm, {});
+    let s = {};
     tick_tm();
-    function tick_tm() {
+    function tick_tm() {}
       let sec_left_hour = s % 3600;
       let hrs = ((s - sec_left_hour) / 3600);
       let sec_left = sec_left_hour % 60;
@@ -105,17 +112,14 @@ class WebServerManager:
       document.getElementById("time_left").innerHTML = hrs.toString().padStart(
           2, "0") + ":" + min.toString().padStart(2, "0") + ":" + sec_left.toString().padStart(2, "0");
       s = s - 1;
-    }
+    {}
   </script>
 </body>
 
-</html>"""
-# .format(self.__question_to_display[self.__question_index].encode("utf-8"),
-#                   int(self.__tick_time*1000),
-#                   self.__buzzer.get_time_left())
-
-        self.__question_index = (
-            self.__question_index+1) % (2*len(self.__question_to_display))
+</html>""".format(self.__question_to_display[self.__question_index],
+                  int(self.__tick_time*1000),
+                  self.__buzzer.get_time_left(),
+                  '{', '}')
 
     @ staticmethod
     def __open_socket(ip):

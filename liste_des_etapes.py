@@ -17,7 +17,7 @@ liste_des_etapes = (
          'tic tac',], 1.25, None),  # ROUGE
     (3, ["À saveur d'orange, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
      0.95, None),  # ORANGE/BLANC
-    (4, ['Il était temps bande de poshes', "NUM 10;1;21;14;5"], 0.4, None),  # Jaune
+    (4, ["Il était temps, c'était long!", "NUM 10;1;21;14;5"], 0.4, None),  # Jaune
     (5, ["Le temps passe vite quand on s'ammuse trouvez vous.",
          "J'espères que vous vous amusez autant que moi.",
          "Il faut en profitez, rapelez vous ce qui vient au bout du tic tac...",
