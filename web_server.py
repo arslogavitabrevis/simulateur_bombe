@@ -40,6 +40,7 @@ class WebServerManager:
 
         self.__question_to_display = ['Badaboum!!!']
         self.__question_index = 0
+        self.__q_idx_cooldown = False
         self.__tick_time = 2
         self.running = False
 
@@ -60,13 +61,9 @@ class WebServerManager:
         self.__tick_time = tick_time
         self.__question_index = 0
         self.__question_to_display = questions
-        self.__question_index_timer.deinit()
-        self.__question_index_timer.init(
-            period=2500, callback=self.update_question_index)
 
-    def update_question_index(self, timer: machine.Timer):
-        self.__question_index = (
-            self.__question_index+1) % len(self.__question_to_display)
+    def __cooldown_question_idx(self, timer: machine.Timer):
+        self.__q_idx_cooldown = False
 
     def __serve(self):
 
@@ -93,13 +90,24 @@ class WebServerManager:
             client.close()
 
     def get_webpage(self):
+        if not self.__q_idx_cooldown:
+            self.__q_idx_cooldown = True
+            self.__question_index = (
+                self.__question_index+1) % len(self.__question_to_display)
+            self.__question_index_timer.deinit()
+            self.__question_index_timer.init(
+                mode=machine.Timer.ONE_SHOT,
+                period=1000, callback=self.__cooldown_question_idx)
+
+        question = self.__question_to_display[self.__question_index]
+
         return """<!DOCTYPE html>
 <html>
 <META http-equiv=refresh content="2.5" charset="UTF-8">
 
 <body style="background-color:black;">
   <p id="time_left" style="font-size:100px;color:red;text-align:center;"></p>
-  <p id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">{}</p>
+  <p{format} id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">{}</p{format}>
   <script>
     setInterval(tick_tm, {});
     let s = {};
@@ -116,10 +124,11 @@ class WebServerManager:
   </script>
 </body>
 
-</html>""".format(self.__question_to_display[self.__question_index],
+</html>""".format(question,
                   int(self.__tick_time*1000),
                   self.__buzzer.get_time_left(),
-                  '{', '}')
+                  '{', '}',
+                  format={True: "re", False: ""}['\n' in question])
 
     @ staticmethod
     def __open_socket(ip):

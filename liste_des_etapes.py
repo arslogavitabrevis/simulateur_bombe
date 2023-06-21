@@ -18,43 +18,14 @@ liste_des_etapes = (
     (3, ["À saveur d'orange, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
      0.95, None),  # ORANGE/BLANC
     (4, ["Il était temps, c'était long!", "NUM 10;1;21;14;5"], 0.4, None),  # Jaune
-    (5, ["Le temps passe vite quand on s'ammuse trouvez vous.",
-         "J'espères que vous vous amusez autant que moi.",
+    (5, ["Le temps passe vite quand on s'ammuse! Trouvez-vous? J'espères que vous vous amusez autant que moi.",
          "Il faut en profitez, rapelez vous ce qui vient au bout du tic tac...",
          "En voici une autre pour vous:",
          "Espace _____",
          "_____ de mémoire",
          "____ d'oeuf",], 0.5, None),  # BLANC
-    (6, ["""   
-   |
- .'|'.
-/.'|\ \
-| /|'.|
- \ |\/
-  \|/
-   `""", """
-                          (o)(o)
-                          /     \
-                         /       |
-                        /   \  * |
-          ________     /    /\__/
-  _      /        \   /    /
- / \    /  ____    \_/    /
-//\ \  /  /    \         /
-V  \ \/  /      \       /
-    \___/        \_____/
-""",
-         """"   
-   |
- .'|'.
-/.'|\ \    
-_______    
-| /|'.|
- \ |\/
-  \|/
-   `""",
-         "Le vers blanc coupe la feuille verte.",], 1.2, None),  # VERT/BLANC
-    (7, ["Les robot du futur seront-ils nu comme des vers ou auront ils une peau de PVC?"],
+    (6, ["Le vers blanc coupe la feuille verte.",], 1.2, None),  # VERT/BLANC
+    (7, ["Les robot du futur seront-ils nu comme des vers ou auront-ils une peau de PVC?"],
      1, None),  # Sans gaine
     (8, ["Mercenaire!", "armez", "uniquement",
      "vos", "ennemis!"], 1, None),  # MAUVE
@@ -76,7 +47,7 @@ _______
                                         
 --..,___.--,--'`,---..-.--+--.,,-,,..._.--..-._.,
 """,
-          "Le ciel d'été parsemé de beaux cumulus bleu",], 3, None),  # BLEU/BLANC
+          "Le ciel d'été parsemé de beaux cumulus blanc",], 3, None),  # BLEU/BLANC
     (13, ["""
 ⠀⠀⠀⠀⠀⠀⠀⢸⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⢸⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
