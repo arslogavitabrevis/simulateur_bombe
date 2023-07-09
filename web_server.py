@@ -107,7 +107,7 @@ class WebServerManager:
 
 <body style="background-color:black;">
   <p id="time_left" style="font-size:100px;color:red;text-align:center;"></p>
-  <p{format} id="questions" style="font-size:50px;color:red;text-align:center;font-family:Cursive;">{}</p{format}>
+  <p{format} id="questions" style="font-size:50px;color:red;text-align:center;">{}</p{format}>
   <script>
     setInterval(tick_tm, {});
     let s = {};

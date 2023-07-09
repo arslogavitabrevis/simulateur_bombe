@@ -17,10 +17,8 @@ class SequenceDesarmorcement:
         self.__cable_coupes = 0
 
         self.__pins = [Pin(1, mode=Pin.IN, pull=Pin.PULL_DOWN)
-                       for i in range(1, 8)]
+                       for i in range(1, 24)]
 
-        self.__pins.extend([Pin(i, mode=Pin.IN, pull=Pin.PULL_UP)
-                            for i in range(8, len(liste_des_etapes)+1)])
         for i, pin in enumerate(self.__pins):
             pin.irq(trigger=Pin.IRQ_FALLING,
                     handler=lambda pin, pin_num=i: self.__gpio_interrup_callback(pin, pin_num))
@@ -51,7 +49,7 @@ class SequenceDesarmorcement:
          nouveau_temps) = liste_des_etapes[self.__etape]
 
         # Si la pin a vérifier a été coupé
-        if self.__pins[pin_a_verifier-1].value() == False:
+        if pin_a_verifier is not None and self.__pins[pin_a_verifier-1].value() == False:
             print("pin {} déconnecté".format(pin_a_verifier))
             self.__etape += 1
             if self.__etape >= len(liste_des_etapes):

@@ -5,7 +5,7 @@ class Buzzer:
 
     def __init__(self) -> None:
 
-        self.__time_left_s = 1800  # s
+        self.__time_left_s = 14000  # s
 
         self.__refresh = 2000  # ms
 
