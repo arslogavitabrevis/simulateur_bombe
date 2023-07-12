@@ -12,8 +12,8 @@ liste_des_etapes = (
         "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
         "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
         'tic tac',], 1.25, 7203),  # ROUGE
-    (3, ["À saveur d'orange, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
-     0.95, None),  # ORANGE/BLANC
+    (3, ["À saveur dde fraise, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
+     0.95, None),  # Rouge/BLANC
     (4, ["Il était temps, c'était long!", "NUM 10;1;21;14;5"], 0.4, None),  # Jaune
     (5, ["Le temps passe vite quand on s'ammuse! Trouvez-vous? J'espères que vous vous amusez autant que moi.",
          "Il faut en profitez, rapelez vous ce qui vient au bout du tic tac...",
@@ -51,7 +51,7 @@ liste_des_etapes = (
 
     (18, ["N'essayez pas le piano, c'est trop compliqué pour vous, ça vous fera saigner du nez."]*8 + \
      ["Vous pouvez toujours l'essayez ça ferait un beau mix de couleur..."]*2, 1, None),  # Blanc noir et rouge
-    (19, ["Heureusement, il y a des gens qui ne saigne pas du nez lorsqu'ils en jousseent."],
+    (19, ["Heureusement, il y a des gens qui ne saigne pas du nez lorsqu'ils jousseent du piano."],
      1, None),  # Blanc et noir
     (20, ["Une facile en échange de vous verrez bien quoi...",]*3 +
      ["Le fil vert avec des taches noires et blanches"]*20, 1, None),  # VERT blanc noir
@@ -64,7 +64,7 @@ liste_des_etapes = (
     (22, ["Je suis trop gentil, ça compte pour une bonne action je suppose.",
           "Ou peut être trois bonne action colorées.",] +
      ["J'exagère un peu ok, colorées et en noir et blanc"]*5, 0.7, 200),  # ROUGE noir, blanc
-    (23, ["C'est une bombe!!!!",
+    (26, ["C'est une bombe!!!!",
           "Badaboom.",
           "boom",
           "Bada.",
@@ -73,6 +73,6 @@ liste_des_etapes = (
           "Avais tu oublié!",
           "Tic tac",
           "Qu'est ce que tu attend?",] +
-     ["COUPE TOUT CE QUI RESTE!!!!!"]*5, 0.3, None),  # Ce qui reste
+     ["COUPE TOUT CE QUI RESTE!!!!!"]*5, 0.3, None),  # Ce qui reste (vert et noir)
     (None, [""], 3600, 0),
 )
