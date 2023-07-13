@@ -1,20 +1,13 @@
 liste_des_etapes = (
     # pin_à_vérifier, question, Frequences,nouveau temps
     (1, ["En attente du démarrage de la bombe"], 1, None),
-    (2, [
-        "Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",
-        "Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",
-        "Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",
-        "souffLEs",
-        "souffLEs",
-        "souffLEs",
-        "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
-        "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
-        "à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",
-        'tic tac',], 1.25, 7203),  # ROUGE
-    (3, ["À saveur dde fraise, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
+    (2, ["Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",]*4 +
+        ["souffLEs",]*4 +
+        ["à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",]*4 +
+        ['tic tac',], 1.25, 10800),  # ROUGE
+    (3, ["À saveur de fraise, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport Fudge®"],
      0.95, None),  # Rouge/BLANC
-    (4, ["Il était temps, c'était long!", "NUM 10;1;21;14;5"], 0.4, None),  # Jaune
+    (4, ["Il était temps, c'était long!"] + ["NUM 10;1;21;14;5"]*6, 0.4, None),  # Jaune
     (5, ["Le temps passe vite quand on s'ammuse! Trouvez-vous? J'espères que vous vous amusez autant que moi.",
          "Il faut en profitez, rapelez vous ce qui vient au bout du tic tac...",
          "En voici une autre pour vous:",
