@@ -2,7 +2,7 @@ from machine import Pin, Timer
 from __buzzer import Buzzer
 from web_server import WebServerManager
 from liste_des_etapes import liste_des_etapes
-
+import time
 
 class SequenceDesarmorcement:
     def __init__(self, web_server: WebServerManager, buzzer: Buzzer):
@@ -18,13 +18,14 @@ class SequenceDesarmorcement:
 
         self.__pins = [Pin(i, mode=Pin.IN, pull=Pin.PULL_UP)
                        for i in range(1, 24)]
-
+        self.__pins[0].irq(trigger=Pin.IRQ_FALLING, handler=self.__fermeture_capot)
+        
+    def __fermeture_capot(self, pin:Pin):
+        self.__verification(True)
+        time.sleep(0.5)
         for i, pin in enumerate(self.__pins):
             pin.irq(trigger=Pin.IRQ_RISING,
                     handler=lambda pin, pin_num=i: self.__gpio_interrup_callback(pin, pin_num))
-
-        # Faire une timer pour vérifier l'étape au secondes
-        # au cas ou l'interrupt serait manqué
         self.__timer = Timer()
         self.__timer.init(
             period=2500, callback=self.__callback_timer_verification)

@@ -1,6 +1,6 @@
 liste_des_etapes = (
     # pin_à_vérifier, question, Frequences,nouveau temps
-    (1, ["En attente du démarrage de la bombe"], 1, None),
+    (1, ["En attente du démarrage de la bombe"], 3600, None),
     (2, ["Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",]*4 +
         ["souffLEs",]*4 +
         ["à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",]*4 +
@@ -53,7 +53,7 @@ liste_des_etapes = (
      ["Mon tout est un fil à couper si tu ne l'aurais pas deviné."]*2 +
      ["Petit indice, la caractéristique ce n'est pas d'être mignon.",
       "As tu déjà vu une patate mignonne?",
-      "Tu as le droit de trouver les patates mignonnes, mais ce n'est pas de l'avis général."], 1, 180),
+      "Tu as le droit de trouver les patates mignonnes, mais ce n'est pas de l'avis général."], 1, 300),
     (22, ["Je suis trop gentil, ça compte pour une bonne action je suppose.",
           "Ou peut être trois bonnes actions colorées.",] +
      ["J'exagère un peu ok, colorées et en noir et blanc"]*5, 0.7, 200),  # ROUGE noir, blanc
