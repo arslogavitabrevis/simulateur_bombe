@@ -4,7 +4,7 @@ liste_des_etapes = (
     (2, ["Cher mOrtels, bienvenUe, ProfitEZ de vos derniers",]*4 +
         ["souffLEs",]*4 +
         ["à moins que vous ne soyez à la hauteuR de mOn merveilleUx GéniE",]*4 +
-        ['tic tac',], 1.25, 10800),  # ROUGE
+        ['tic tac',], 1.25, 10000),  # ROUGE
     (3, ["À saveur de fraise, il a de plus par rapport au Popsicle® ce que le Revello® a de plus par rapport au Fudge®"],
      0.95, None),  # Rouge/BLANC
     (4, ["Il était temps, c'était long!"] + ["NUM 10;1;21;14;5"]*6, 0.4, None),  # Jaune
@@ -24,7 +24,7 @@ liste_des_etapes = (
     (11, ["Pièce de 1 sous"], 0.5, None),  # BRUN
     (12, ["Le ciel d'été parsemé de beaux cumulus blancs",], 3, None),  # BLEU/BLANC
     (13, ["""Le katana serait l'âme de ce guerrier japonais.""",] +
-     ["1,1;3,3;2,0;5,0",]*4, 3, None),  # BLEU
+     ["1,1;3,3;2,0;5,0",]*4, 3, 3600),  # BLEU
     (14, ["EGNARO. Sachez jeunes naifs qu'il n'y aura pas de retour en arriere.",
           "Une fois que nous aurons remplis nos merveilleux desseins.",
           "Pour cette humanité qui nous appartiendra.",
@@ -37,13 +37,13 @@ liste_des_etapes = (
     (16, ["e = >  ;  l = $  ;  o = ) ;  r = @",
           "b = a ; u = %  ;  i = +",
           "a = &  ;  t = ?  ;  n = *",] +
-     ["&$>%   >?   *)+@"]*2, 0.75, None),  # Bleu et noir
+     ["&$>%   >?   *)+@"]*2, 0.75, 1800),  # Bleu et noir
 
     (17, ["Un beau légume racine longiligne croquant doté d'un feuillage au goût de celeri. Selon la croyance populaire, les léporidés rafoleraient de ce légume.",]*4 +
      ["tic tac"], 1, None),  # Orange et vert
 
     (18, ["N'essayez pas le piano, c'est trop compliqué pour vous, ça vous fera saigner du nez."]*8 + \
-     ["Vous pouvez toujours l'essayer, ça ferait un beau mix de couleur..."]*2, 1, None),  # Blanc noir et rouge
+     ["Vous pouvez toujours l'essayer, ça ferait un beau mix de couleur..."]*2, 1, 900),  # Blanc noir et rouge
     (19, ["Heureusement, il y a des gens qui ne saignent pas du nez lorsqu'ils joussent du piano."],
      1, None),  # Blanc et noir
     (20, ["Une facile en échange de vous verrez bien quoi...",]*3 +
@@ -54,10 +54,8 @@ liste_des_etapes = (
      ["Petit indice, la caractéristique ce n'est pas d'être mignon.",
       "As tu déjà vu une patate mignonne?",
       "Tu as le droit de trouver les patates mignonnes, mais ce n'est pas de l'avis général."], 1, 300),
-    (22, ["Je suis trop gentil, ça compte pour une bonne action je suppose.",
-          "Ou peut être trois bonnes actions colorées.",] +
-     ["J'exagère un peu ok, colorées et en noir et blanc"]*5, 0.7, 200),  # ROUGE noir, blanc
-    (26, ["C'est une bombe!!!!",
+    (22, ["L'amour du défi"], 0.7, 200),  # ROUGE noir
+    (23, ["C'est une bombe!!!!",
           "Badaboom.",
           "boom",
           "Bada.",
@@ -67,5 +65,5 @@ liste_des_etapes = (
           "Tic tac",
           "Qu'est ce que tu attend?",] +
      ["COUPE TOUT CE QUI RESTE!!!!!"]*5, 0.3, None),  # Ce qui reste (vert et noir)
-    (None, [""], 3600, 0),
+    (None, ["Dispositif désarmorsé"], 3600, 0),
 )

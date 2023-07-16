@@ -17,12 +17,13 @@ class SequenceDesarmorcement:
         self.__cable_coupes = 0
 
         self.__pins = [Pin(i, mode=Pin.IN, pull=Pin.PULL_UP)
-                       for i in range(1, 24)]
+                       for i in list(range(1, 23))+[26]]
         self.__pins[0].irq(trigger=Pin.IRQ_FALLING, handler=self.__fermeture_capot)
         
     def __fermeture_capot(self, pin:Pin):
+        print("fermeture du capot")
         self.__verification(True)
-        time.sleep(0.5)
+        time.sleep(1)
         for i, pin in enumerate(self.__pins):
             pin.irq(trigger=Pin.IRQ_RISING,
                     handler=lambda pin, pin_num=i: self.__gpio_interrup_callback(pin, pin_num))
@@ -44,14 +45,14 @@ class SequenceDesarmorcement:
             self.__verification()
 
     def __verification(self, update=False):
-        (pin_a_verifier,
+        (pin_idx_a_verifier,
          question,
          periode,
          nouveau_temps) = liste_des_etapes[self.__etape]
 
         # Si la pin a vérifier a été coupé
-        if pin_a_verifier is not None and self.__pins[pin_a_verifier-1].value() == True:
-            print("pin {} déconnecté".format(pin_a_verifier))
+        if pin_idx_a_verifier is not None and self.__pins[pin_idx_a_verifier-1].value() == True:
+            print("pin {} déconnecté".format(pin_idx_a_verifier))
             self.__etape += 1
             if self.__etape >= len(liste_des_etapes):
                 self.__etape = len(liste_des_etapes)-1

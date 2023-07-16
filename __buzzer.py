@@ -5,9 +5,9 @@ class Buzzer:
 
     def __init__(self) -> None:
 
-        self.__time_left_s = 20  # s
+        self.__time_left_s = 14000  # s
 
-        self.__refresh = 60000 # ms
+        self.__refresh = 5000 # ms
 
         # Activer une pin de sortie pour le buzzer
         self.__buzzer_pin = machine.Pin(0, machine.Pin.OUT)
