@@ -64,6 +64,6 @@ liste_des_etapes = (
           "Avais tu oublié!",
           "Tic tac",
           "Qu'est ce que tu attend?",] +
-     ["COUPE TOUT CE QUI RESTE!!!!!"]*5, 0.3, None),  # Ce qui reste (vert et noir)
+     ["COUPE TOUT CE QUI RESTE!!!!!"]*5, 0.4, None),  # Ce qui reste (vert et noir)
     (None, ["Dispositif désarmorsé"], 3600, 0),
 )

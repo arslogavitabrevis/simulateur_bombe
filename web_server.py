@@ -59,8 +59,9 @@ class WebServerManager:
     def update_webpage(self, questions: list[str],
                        tick_time: float):
         self.__tick_time = tick_time
-        self.__question_index = 0
+        self.__question_index = -1
         self.__question_to_display = questions
+        self.__q_idx_cooldown = False
 
     def __cooldown_question_idx(self, timer: machine.Timer):
         self.__q_idx_cooldown = False
